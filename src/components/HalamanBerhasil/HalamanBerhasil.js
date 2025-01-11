@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-const HalamanPilihan = ({ navigation, route }) => {
-  const { username, role } = route.params;
+const HalamanBerhasil = ({ navigation, route }) => {
+  const { username, role } = route.params; // Ambil parameter username dan role
 
   // Function to handle back navigation
   const handleBack = () => {
@@ -13,12 +13,12 @@ const HalamanPilihan = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {/* Header with Back Button */}
+      {/* Header */}
       <View style={styles.headerContainer}>
         {navigation.canGoBack() && (
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
             <Text style={styles.backButtonText}>{"Back"}</Text>{" "}
-            {/* Simbol "<" */}
+            {/* Ganti "Back" dengan "<" */}
           </TouchableOpacity>
         )}
       </View>
@@ -30,32 +30,27 @@ const HalamanPilihan = ({ navigation, route }) => {
       />
       <Text style={styles.appName}>ABSENSIKU</Text>
       <Text style={styles.welcomeText}>Selamat Datang</Text>
-      <Text style={styles.subText}>{username}</Text>
-
-      {/* Teacher Button */}
+      <Text style={styles.name}>{username}</Text>
+      <Text style={styles.roleText}>Role: {role}</Text>
       <TouchableOpacity
-        style={styles.roleButton}
-        onPress={() =>
-          navigation.navigate("HalamanBerhasil", {
-            username: username,
-            role: "Teacher",
-          })
-        }
+        style={styles.continueButton}
+        onPress={() => {
+          // Jika role adalah Teacher, navigasi ke halaman home teacher
+          if (role === "Teacher") {
+            navigation.navigate("TeacherHomeScreen", {
+              username: username,
+              role: role,
+            });
+          } else if (role === "Student") {
+            // Jika role adalah Student, navigasi ke halaman home student
+            navigation.navigate("StudentHomeScreen", {
+              username: username,
+              role: role,
+            });
+          }
+        }}
       >
-        <Text style={styles.roleButtonText}>TEACHER</Text>
-      </TouchableOpacity>
-
-      {/* Student Button */}
-      <TouchableOpacity
-        style={styles.roleButton}
-        onPress={() =>
-          navigation.navigate("HalamanBerhasil", {
-            username: username,
-            role: "Student",
-          })
-        }
-      >
-        <Text style={styles.roleButtonText}>STUDENT</Text>
+        <Text style={styles.continueButtonText}>Continue</Text>
       </TouchableOpacity>
     </View>
   );
@@ -75,16 +70,16 @@ const styles = StyleSheet.create({
     left: 20,
   },
   backButton: {
-    padding: 10, // Hanya jarak sekitar simbol
+    padding: 5, // Hanya jarak sekitar simbol tanpa latar belakang
   },
   backButtonText: {
     color: "#000000", // Warna simbol "<"
     fontSize: 20, // Ukuran simbol
-    fontWeight: "bold", // Ketebalan simbol
+    fontWeight: "bold", // Tebalkan simbol
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     marginBottom: 10,
   },
   appName: {
@@ -99,24 +94,30 @@ const styles = StyleSheet.create({
     color: "#333333",
     marginBottom: 10,
   },
-  subText: {
+  name: {
+    fontSize: 18,
+    color: "#000000",
+    fontWeight: "500",
+    marginBottom: 10,
+  },
+  roleText: {
     fontSize: 16,
     color: "#666666",
     marginBottom: 30,
   },
-  roleButton: {
+  continueButton: {
     width: "80%",
-    paddingVertical: 15,
+    backgroundColor: "#ADD8E6",
     borderRadius: 25,
+    paddingVertical: 15,
     alignItems: "center",
-    marginBottom: 15,
-    backgroundColor: "#82C2E6",
+    marginTop: 20,
   },
-  roleButtonText: {
+  continueButtonText: {
+    color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
-    color: "#FFFFFF",
   },
 });
 
-export default HalamanPilihan;
+export default HalamanBerhasil;

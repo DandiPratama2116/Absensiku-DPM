@@ -13,7 +13,7 @@ const LoadingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../../../assets/WhatsApp_Image_2024-12-05_at_16.40.42_c109cd1c__1_-removebg-preview.png")}
+        source={require("../../../assets/sidikjari.png")}
         style={styles.logo}
       />
       <Text style={styles.text}>ABSENSIKU</Text>

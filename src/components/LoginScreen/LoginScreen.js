@@ -1,21 +1,14 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(""); // State untuk username
+  const [password, setPassword] = useState(""); // State untuk password
 
   const handleLogin = () => {
-    // Validasi login sederhana
     if (username && password) {
-      navigation.navigate("Pilihan"); // Navigasi ke halaman Pilihan
+      // Navigasi ke halaman Pilihan sambil membawa parameter username
+      navigation.navigate("Pilihan", { username: username });
     } else {
       alert("Please enter username and password!");
     }
@@ -23,10 +16,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../../assets/WhatsApp_Image_2024-12-05_at_16.40.42_c109cd1c__1_-removebg-preview.png")}
-        style={styles.logo}
-      />
+      <Image source={require("../../../assets/sidikjari.png")} style={styles.logo} />
       <Text style={styles.appName}>ABSENSIKU</Text>
       <Text style={styles.welcomeText}>Selamat Datang</Text>
       <View style={styles.inputContainer}>
