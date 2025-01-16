@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  ScrollView,
 } from "react-native";
 
 const JadwalKelas = ({ navigation, route }) => {
@@ -62,59 +63,86 @@ const JadwalKelas = ({ navigation, route }) => {
 
       {/* Form Jadwal Kelas */}
       <Text style={styles.title}>Jadwal Kelas</Text>
-      <View style={styles.formContainer}>
-        <Text style={styles.label}>Kelas</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Masukkan Nama Kelas"
-          value={selectedClass}
-          onChangeText={(text) => setSelectedClass(text)}
-        />
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.formContainer}>
+          {/* Kelas */}
+          <View style={styles.formRow}>
+            <Text style={styles.label}>Kelas</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Masukkan Nama Kelas"
+              value={selectedClass}
+              onChangeText={(text) => setSelectedClass(text)}
+            />
+          </View>
+          <View style={styles.separator} />
 
-        <Text style={styles.label}>Mata Pelajaran</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Masukkan Nama Mata Pelajaran"
-          value={selectedSubject}
-          onChangeText={(text) => setSelectedSubject(text)}
-        />
+          {/* Mata Pelajaran */}
+          <View style={styles.formRow}>
+            <Text style={styles.label}>Mata Pelajaran</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Masukkan Nama Mata Pelajaran"
+              value={selectedSubject}
+              onChangeText={(text) => setSelectedSubject(text)}
+            />
+          </View>
+          <View style={styles.separator} />
 
-        <Text style={styles.label}>Pertemuan</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Pertemuan"
-          value={formData.pertemuan}
-          onChangeText={(text) => handleInputChange("pertemuan", text)}
-        />
+          {/* Pertemuan */}
+          <View style={styles.formRow}>
+            <Text style={styles.label}>Pertemuan</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Pertemuan"
+              value={formData.pertemuan}
+              onChangeText={(text) => handleInputChange("pertemuan", text)}
+            />
+          </View>
+          <View style={styles.separator} />
 
-        <Text style={styles.label}>Topik Belajar</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Topik"
-          value={formData.topik}
-          onChangeText={(text) => handleInputChange("topik", text)}
-        />
+          {/* Topik Belajar */}
+          <View style={styles.formRow}>
+            <Text style={styles.label}>Topik Belajar</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Topik"
+              value={formData.topik}
+              onChangeText={(text) => handleInputChange("topik", text)}
+            />
+          </View>
+          <View style={styles.separator} />
 
-        <Text style={styles.label}>Atur Tanggal</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="DD/MM/YYYY"
-          value={formData.tanggal}
-          onChangeText={(text) => handleInputChange("tanggal", text)}
-        />
+          {/* Atur Tanggal */}
+          <View style={styles.formRow}>
+            <Text style={styles.label}>Atur Tanggal</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="DD/MM/YYYY"
+              value={formData.tanggal}
+              onChangeText={(text) => handleInputChange("tanggal", text)}
+            />
+          </View>
+          <View style={styles.separator} />
 
-        <Text style={styles.label}>Waktu</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="HH:MM"
-          value={formData.waktu}
-          onChangeText={(text) => handleInputChange("waktu", text)}
-        />
+          {/* Waktu */}
+          <View style={styles.formRow}>
+            <Text style={styles.label}>Waktu</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="HH:MM"
+              value={formData.waktu}
+              onChangeText={(text) => handleInputChange("waktu", text)}
+            />
+          </View>
+          <View style={styles.separator} />
 
-        <TouchableOpacity style={styles.button} onPress={handleUpload}>
-          <Text style={styles.buttonText}>Upload Jadwal</Text>
-        </TouchableOpacity>
-      </View>
+          {/* Tombol Upload */}
+          <TouchableOpacity style={styles.button} onPress={handleUpload}>
+            <Text style={styles.buttonText}>Upload Jadwal</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -125,6 +153,9 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
   },
+  scrollContent: {
+    paddingBottom: 20,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -134,17 +165,24 @@ const styles = StyleSheet.create({
   formContainer: {
     marginBottom: 24,
   },
+  formRow: {
+    marginBottom: 16,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "#ccc",
+    marginVertical: 8,
+  },
   label: {
     fontSize: 16,
     color: "#333",
-    marginBottom: 8,
+    marginBottom: 4,
   },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     padding: 12,
-    marginBottom: 16,
   },
   button: {
     backgroundColor: "#2D7CF3",

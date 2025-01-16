@@ -15,7 +15,9 @@ import StudentHomeScreen from "./src/components/StudentHomeScreen/StudentHomeScr
 import JadwalKelas from "./src/components/TeacherHomeScreen/JadwalKelas";
 import IzinSiswa from "./src/components/TeacherHomeScreen/IzinSiswa";
 import DetailIzinSiswa from "./src/components/TeacherHomeScreen/DetailIzinSiswa";
-
+import BuatIzin from "./src/components/StudentHomeScreen/BuatIzin";
+import KelasStudent from "./src/components/StudentHomeScreen/KelasStudent";
+import TambahKelasSiswa from "./src/components/StudentHomeScreen/TambahKelasSiswa";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -42,6 +44,9 @@ const App = () => {
 
         {/* Student Screens */}
         <Stack.Screen name="StudentHomeScreen" component={StudentHomeScreen} />
+        <Stack.Screen name="BuatIzin" component={BuatIzin} />
+        <Stack.Screen name="KelasStudent" component={KelasStudent} />
+        <Stack.Screen name="TambahKelasSiswa" component={TambahKelasSiswa} />
       </Stack.Navigator>
     </NavigationContainer>
   );

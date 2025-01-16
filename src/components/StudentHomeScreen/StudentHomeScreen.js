@@ -18,17 +18,23 @@ const StudentHomeScreen = ({ navigation, route }) => {
         {/* Tombol Back */}
         {navigation.canGoBack() && (
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.backButtonText}>{"<"}</Text> {/* Simbol "<" */}
+            <Text style={styles.backButtonText}>{"Back"}</Text>
           </TouchableOpacity>
         )}
         {/* Logo ABSENSIKU */}
-        <Image source={require("../../../assets/sidikjari.png")} style={styles.logo} />
+        <Image
+          source={require("../../../assets/sidikjari.png")}
+          style={styles.logo}
+        />
         <Text style={styles.headerText}>ABSENSIKU</Text>
       </View>
 
       {/* Profile Card */}
       <View style={styles.profileCard}>
-        <Image source={require("../../../assets/student1.png")} style={styles.profileIcon} />
+        <Image
+          source={require("../../../assets/student1.png")}
+          style={styles.profileIcon}
+        />
         <View style={styles.profileTextContainer}>
           <Text style={styles.profileName}>{username}</Text>
           <Text style={styles.profileRole}>Siswa</Text>
@@ -39,25 +45,34 @@ const StudentHomeScreen = ({ navigation, route }) => {
       <View style={styles.menuRow}>
         <TouchableOpacity
           style={styles.menuItem}
-          onPress={() => navigation.navigate("StudentAttendance")}
+          onPress={() => navigation.navigate("BuatIzin")}
         >
-          <Image source={require("../../../assets/note1.png")} style={styles.menuIcon} />
+          <Image
+            source={require("../../../assets/note1.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuText}>Buat Izin</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.menuItem}
-          onPress={() => navigation.navigate("StudentAssignment")}
+          onPress={() => navigation.navigate("KelasStudent")}
         >
-          <Image source={require("../../../assets/book.png")} style={styles.menuIcon} />
+          <Image
+            source={require("../../../assets/book.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuText}>Kelas</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.menuItem}
-          onPress={() => navigation.navigate("StudentGrade")}
+          onPress={() => navigation.navigate("TambahKelasSiswa")}
         >
-          <Image source={require("../../../assets/simbol kelas.png")} style={styles.menuIcon} />
+          <Image
+            source={require("../../../assets/simbol kelas.png")}
+            style={styles.menuIcon}
+          />
           <Text style={styles.menuText}>Tambah Mata Pelajaran</Text>
         </TouchableOpacity>
       </View>
@@ -65,19 +80,31 @@ const StudentHomeScreen = ({ navigation, route }) => {
       {/* Details Card */}
       <View style={styles.detailsCard}>
         <View style={styles.detailItem}>
-          <Image source={require("../../../assets/school_4130952.png")} style={styles.detailIcon} />
+          <Image
+            source={require("../../../assets/school_4130952.png")}
+            style={styles.detailIcon}
+          />
           <Text style={styles.detailText}>SMA Negeri 1 Pekanbaru</Text>
         </View>
         <View style={styles.detailItem}>
-          <Image source={require("../../../assets/smart_15112647.png")} style={styles.detailIcon} />
+          <Image
+            source={require("../../../assets/smart_15112647.png")}
+            style={styles.detailIcon}
+          />
           <Text style={styles.detailText}>IPA</Text>
         </View>
         <View style={styles.detailItem}>
-          <Image source={require("../../../assets/contract.png")} style={styles.detailIcon} />
+          <Image
+            source={require("../../../assets/contract.png")}
+            style={styles.detailIcon}
+          />
           <Text style={styles.detailText}>NISN. 2283391999</Text>
         </View>
         <View style={styles.detailItem}>
-          <Image source={require("../../../assets/DefinitionSearchBook1.png")} style={styles.detailIcon} />
+          <Image
+            source={require("../../../assets/DefinitionSearchBook1.png")}
+            style={styles.detailIcon}
+          />
           <Text style={styles.detailText}>Tahun Ajaran 2024/2025</Text>
         </View>
       </View>
@@ -97,11 +124,11 @@ const styles = StyleSheet.create({
     left: 20,
   },
   backButton: {
-    marginBottom: 5, // Tambahkan jarak antara "<" dan logo
+    fontSize: 15,
   },
   backButtonText: {
     color: "#000000", // Warna simbol "<"
-    fontSize: 20, // Ukuran simbol "<"
+    fontSize: 20,
     fontWeight: "bold", // Tebal
   },
   logo: {
