@@ -8,6 +8,8 @@ import {
   Alert,
   Image,
   ScrollView,
+  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 
 const JadwalKelas = ({ navigation, route }) => {
@@ -18,14 +20,14 @@ const JadwalKelas = ({ navigation, route }) => {
     pertemuan: "",
     topik: "",
     tanggal: "",
-    waktu: "",
+    waktu: "", // Waktu dimasukkan secara manual tanpa validasi
   });
 
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (
       !selectedClass ||
       !selectedSubject ||
@@ -38,183 +40,171 @@ const JadwalKelas = ({ navigation, route }) => {
       return;
     }
 
-    Alert.alert("Jadwal Diupload!", "Data berhasil diupload.");
-    navigation.goBack();
+    try {
+      const response = await fetch("https://example.com/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          className: selectedClass,
+          subject: selectedSubject,
+          pertemuan: formData.pertemuan,
+          topik: formData.topik,
+          tanggal: formData.tanggal,
+          waktu: formData.waktu,
+        }),
+      });
+
+      if (response.ok) {
+        Alert.alert("Jadwal Diupload!", "Data berhasil diupload.");
+        navigation.goBack();
+      } else {
+        Alert.alert("Error", "Terjadi kesalahan saat meng-upload data.");
+      }
+    } catch (error) {
+      console.error("Error uploading data: ", error);
+      Alert.alert("Error", "Terjadi masalah saat menghubungi server.");
+    }
   };
 
   return (
-    <View style={styles.container}>
-      {/* Tombol Kembali */}
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.backSymbol}>{"Back"}</Text>
-      </TouchableOpacity>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Image
+              source={require("../../../assets/back.png")}
+              style={styles.backIcon}
+            />
+          </TouchableOpacity>
+        </View>
 
-      {/* Logo ABSENSIKU */}
-      <View style={styles.logoContainer}>
-        <Image
-          source={require("../../../assets/sidikjari.png")}
-          style={styles.logo}
-        />
-        <Text style={styles.logoText}>ABSENSIKU</Text>
-      </View>
-
-      {/* Form Jadwal Kelas */}
-      <Text style={styles.title}>Jadwal Kelas</Text>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.title}>Jadwal Kelas</Text>
         <View style={styles.formContainer}>
-          {/* Kelas */}
-          <View style={styles.formRow}>
-            <Text style={styles.label}>Kelas</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Masukkan Nama Kelas"
-              value={selectedClass}
-              onChangeText={(text) => setSelectedClass(text)}
-            />
-          </View>
-          <View style={styles.separator} />
+          <Text style={styles.label}>Kelas</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Masukkan Nama Kelas"
+            value={selectedClass}
+            onChangeText={(text) => setSelectedClass(text)}
+          />
 
-          {/* Mata Pelajaran */}
-          <View style={styles.formRow}>
-            <Text style={styles.label}>Mata Pelajaran</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Masukkan Nama Mata Pelajaran"
-              value={selectedSubject}
-              onChangeText={(text) => setSelectedSubject(text)}
-            />
-          </View>
-          <View style={styles.separator} />
+          <Text style={styles.label}>Mata Pelajaran</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Masukkan Nama Mata Pelajaran"
+            value={selectedSubject}
+            onChangeText={(text) => setSelectedSubject(text)}
+          />
 
-          {/* Pertemuan */}
-          <View style={styles.formRow}>
-            <Text style={styles.label}>Pertemuan</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Pertemuan"
-              value={formData.pertemuan}
-              onChangeText={(text) => handleInputChange("pertemuan", text)}
-            />
-          </View>
-          <View style={styles.separator} />
+          <Text style={styles.label}>Pertemuan</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Pertemuan"
+            value={formData.pertemuan}
+            onChangeText={(text) => handleInputChange("pertemuan", text)}
+          />
 
-          {/* Topik Belajar */}
-          <View style={styles.formRow}>
-            <Text style={styles.label}>Topik Belajar</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Topik"
-              value={formData.topik}
-              onChangeText={(text) => handleInputChange("topik", text)}
-            />
-          </View>
-          <View style={styles.separator} />
+          <Text style={styles.label}>Topik Belajar</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Topik"
+            value={formData.topik}
+            onChangeText={(text) => handleInputChange("topik", text)}
+          />
 
-          {/* Atur Tanggal */}
-          <View style={styles.formRow}>
-            <Text style={styles.label}>Atur Tanggal</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="DD/MM/YYYY"
-              value={formData.tanggal}
-              onChangeText={(text) => handleInputChange("tanggal", text)}
-            />
-          </View>
-          <View style={styles.separator} />
+          <Text style={styles.label}>Atur Tanggal</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="DD/MM/YYYY"
+            value={formData.tanggal}
+            onChangeText={(text) => handleInputChange("tanggal", text)}
+          />
 
-          {/* Waktu */}
-          <View style={styles.formRow}>
-            <Text style={styles.label}>Waktu</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="HH:MM"
-              value={formData.waktu}
-              onChangeText={(text) => handleInputChange("waktu", text)}
-            />
-          </View>
-          <View style={styles.separator} />
+          <Text style={styles.label}>Waktu</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="HH:MM"
+            value={formData.waktu}
+            onChangeText={(text) => handleInputChange("waktu", text)} // Input waktu secara manual
+            keyboardType="numeric" // Memastikan hanya angka yang bisa dimasukkan
+            maxLength={5} // Membatasi input hingga 5 karakter (HH:MM)
+          />
 
-          {/* Tombol Upload */}
           <TouchableOpacity style={styles.button} onPress={handleUpload}>
             <Text style={styles.buttonText}>Upload Jadwal</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#F7F9FC",
   },
-  scrollContent: {
-    paddingBottom: 20,
+  scrollContainer: {
+    padding: 0,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  formContainer: {
-    marginBottom: 24,
-  },
-  formRow: {
-    marginBottom: 16,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: "#ccc",
-    marginVertical: 8,
-  },
-  label: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 4,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 12,
-  },
-  button: {
-    backgroundColor: "#2D7CF3",
-    padding: 15,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-  backButton: {
-    marginBottom: 16,
-  },
-  backSymbol: {
-    fontSize: 18,
-    color: "black",
-  },
-  logoContainer: {
+  headerContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
   },
-  logo: {
-    width: 40,
-    height: 40,
+  backButton: {
     marginRight: 8,
   },
-  logoText: {
+  backIcon: {
+    width: 18,
+    height: 18,
+  },
+  title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#007AFF",
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  formContainer: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 8,
+    padding: 16,
+    elevation: 3,
+  },
+  label: {
+    fontSize: 14,
+    color: "#333333",
+    marginBottom: 8,
+    color: '#08080d',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 14,
+    backgroundColor: "#FFFFFF",
+    marginBottom: 16,
+  },
+  button: {
+    backgroundColor: "#87CEFA",
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: "center",
+    marginTop: 16,
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 

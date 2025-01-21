@@ -17,8 +17,10 @@ const HalamanBerhasil = ({ navigation, route }) => {
       <View style={styles.headerContainer}>
         {navigation.canGoBack() && (
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.backButtonText}>{"Back"}</Text>{" "}
-            {/* Ganti "Back" dengan "<" */}
+            <Image
+              source={require("../../../assets/back.png")} // Ganti dengan path ikon Anda
+              style={styles.backIcon}
+            />
           </TouchableOpacity>
         )}
       </View>
@@ -72,10 +74,11 @@ const styles = StyleSheet.create({
   backButton: {
     padding: 5, // Hanya jarak sekitar simbol tanpa latar belakang
   },
-  backButtonText: {
-    color: "#000000", // Warna simbol "<"
-    fontSize: 20, // Ukuran simbol
-    fontWeight: "bold", // Tebalkan simbol
+  backIcon: {
+    width: 18, // Lebar ikon
+    height: 18, // Tinggi ikon
+    resizeMode: "contain", // Memastikan ikon tidak terdistorsi
+    tintColor: "#000", // (Opsional) Warna ikon, jika mendukung transparansi
   },
   logo: {
     width: 120,

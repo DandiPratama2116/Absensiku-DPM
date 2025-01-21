@@ -48,12 +48,15 @@ const IzinSiswa = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Tombol Kembali */}
+      {/* Tombol Kembali dengan Ikon */}
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
-        <Text style={styles.backSymbol}>{"Back"}</Text>
+        <Image
+          source={require("../../../assets/back.png")} // Ganti dengan path gambar back.png
+          style={styles.backIcon} // Gaya untuk mengatur ukuran ikon
+        />
       </TouchableOpacity>
 
       {/* Logo ABSENSIKU */}
@@ -97,10 +100,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
   },
-  backSymbol: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
+  // Gaya untuk tombol back dengan ikon
+  backButton: {
+    padding: 8,
+    marginBottom: 8,
+  },
+  backIcon: {
+    width: 18, // Ukuran lebar ikon back
+    height: 18, // Ukuran tinggi ikon back
+    tintColor: "#333", // Menambahkan warna ikon jika diperlukan
   },
   logoContainer: {
     flexDirection: "row",
@@ -113,7 +121,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   logoText: {
-    fontSize: 20,
+    fontSize: 12,
     fontWeight: "bold",
     color: "#007AFF",
   },

@@ -18,16 +18,8 @@ const TeacherHomeScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* Header tanpa tombol kembali */}
       <View style={styles.headerContainer}>
-        {navigation.canGoBack() && (
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Text style={styles.backSymbol}>{"Back"}</Text>
-          </TouchableOpacity>
-        )}
         <View style={styles.logoContainer}>
           <Image
             source={require("../../../assets/sidikjari.png")}
@@ -151,14 +143,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
     marginBottom: 16,
-  },
-  backButton: {
-    marginBottom: 8,
-  },
-  backSymbol: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
   },
   logoContainer: {
     flexDirection: "row",

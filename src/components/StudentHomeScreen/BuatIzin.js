@@ -1,187 +1,199 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Image,
-} from "react-native";
-import * as DocumentPicker from "expo-document-picker";
-import { useNavigation } from "@react-navigation/native";
-
-const BuatIzin = () => {
-  const navigation = useNavigation();
-  const [nama, setNama] = useState("");
-  const [nisn, setNisn] = useState("");
-  const [kelas, setKelas] = useState("");
-  const [keterangan, setKeterangan] = useState("");
-  const [deskripsi, setDeskripsi] = useState("");
-  const [file, setFile] = useState(null);
-
-  const handleFileUpload = async () => {
-    try {
-      const result = await DocumentPicker.getDocumentAsync({
-        type: "*/*",
-      });
-      if (result.type === "success") {
-        setFile(result);
-      }
-    } catch (error) {
-      console.error("Error selecting file: ", error);
-    }
-  };
-
-  const handleBack = () => {
-    navigation.goBack(); // Navigasi kembali ke halaman sebelumnya
-  };
-
-  const handleSubmit = () => {
-    if (!nama || !nisn || !kelas || !keterangan || !deskripsi) {
-      alert("Semua field kecuali file pendukung wajib diisi!");
-      return;
-    }
-
-    alert("Data berhasil divalidasi!");
-  };
-
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text onPress={handleBack} style={styles.backText}>
-        {"< Back"} {/* Simbol "<" sebagai tanda kembali */}
-      </Text>
-
-      <View style={styles.headerContainer}>
-        <Image
-          source={require("../../../assets/sidikjari.png")}
-          style={styles.logo}
-        />
-        <Text style={styles.headerText}>ABSENSIKU</Text>
-      </View>
-
-      <Text style={styles.label}>Nama :</Text>
-      <TextInput
-        style={styles.input}
-        value={nama}
-        onChangeText={setNama}
-        placeholder="Masukkan nama Anda"
-      />
-
-      <Text style={styles.label}>NISN :</Text>
-      <TextInput
-        style={styles.input}
-        value={nisn}
-        onChangeText={setNisn}
-        placeholder="Masukkan NISN Anda"
-        keyboardType="numeric"
-      />
-
-      <Text style={styles.label}>Kelas :</Text>
-      <TextInput
-        style={styles.input}
-        value={kelas}
-        onChangeText={setKelas}
-        placeholder="Masukkan kelas Anda"
-      />
-
-      <Text style={styles.label}>Keterangan :</Text>
-      <TextInput
-        style={styles.input}
-        value={keterangan}
-        onChangeText={setKeterangan}
-        placeholder="Pilih keterangan"
-      />
-
-      <Text style={styles.label}>Deskripsi :</Text>
-      <TextInput
-        style={[styles.input, styles.textArea]}
-        value={deskripsi}
-        onChangeText={setDeskripsi}
-        placeholder="Masukkan deskripsi"
-        multiline
-      />
-
-      <Text style={styles.label}>Bukti Pendukung (Opsional):</Text>
-      <TouchableOpacity style={styles.fileButton} onPress={handleFileUpload}>
-        <Text style={styles.fileButtonText}>
-          {file ? file.name : "Pilih File"}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Upload</Text>
-      </TouchableOpacity>
-    </ScrollView>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: "#fff",
-    flexGrow: 1,
-  },
-  backText: {
-    color: "#007BFF",
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    resizeMode: "contain",
-    marginRight: 10, // Memberikan jarak antara logo dan teks
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#007BFF",
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 12,
-    padding: 10,
-    marginBottom: 16,
-    fontSize: 16,
-  },
-  textArea: {
-    height: 100,
-    textAlignVertical: "top",
-  },
-  fileButton: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 10,
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  fileButtonText: {
-    fontSize: 16,
-    color: "#007BFF",
-  },
-  submitButton: {
-    backgroundColor: "#007BFF",
-    padding: 15,
-    borderRadius: 15,
-    alignItems: "center",
-  },
-  submitButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
-
-export default BuatIzin;
+import React, { useState } from 'react';  
+import { StyleSheet, Text, View, TextInput, ScrollView, Button, Picker, TouchableOpacity, Alert, Image } from 'react-native';  
+import * as DocumentPicker from 'expo-document-picker';  
+  
+const BuatIzin = ({ navigation }) => {  
+  const [nama, setNama] = useState('');  
+  const [nisn, setNisn] = useState('');  
+  const [kelas, setKelas] = useState('');  
+  const [keterangan, setKeterangan] = useState('');  
+  const [deskripsi, setDeskripsi] = useState('');  
+  const [file, setFile] = useState(null);  
+  
+  const handleFileUpload = async () => {  
+    let result = await DocumentPicker.getDocumentAsync({});  
+    if (result.type === 'success') {  
+      setFile(result);  
+    }  
+  };  
+  
+  const handleSubmit = () => {  
+    Alert.alert(  
+      'Form Submitted',  
+      `Nama: ${nama}\nNISN: ${nisn}\nKelas: ${kelas}\nKeterangan: ${keterangan}\nDeskripsi: ${deskripsi}\nFile: ${file ? file.name : 'No file uploaded'}`  
+    );  
+  };  
+  
+  return (  
+    <ScrollView contentContainerStyle={styles.container}>  
+      <View style={styles.header}>  
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>  
+          <Image source={require('../../../assets/back.png')} style={styles.backIcon} />  
+        </TouchableOpacity>  
+        <Text style={styles.headerText}>Buat Izin</Text>  
+      </View>  
+      <View style={styles.formContainer}>  
+        <View style={styles.formGroup}>  
+          <Text style={styles.label}>Nama</Text>  
+          <TextInput  
+            style={styles.input}  
+            value={nama}  
+            onChangeText={setNama}  
+            placeholder="Masukkan nama"  
+          />  
+        </View>  
+        <View style={styles.formGroup}>  
+          <Text style={styles.label}>NISN</Text>  
+          <TextInput  
+            style={styles.input}  
+            value={nisn}  
+            onChangeText={setNisn}  
+            placeholder="Masukkan NISN"  
+            keyboardType="numeric"  
+          />  
+        </View>  
+        <View style={styles.formGroup}>  
+          <Text style={styles.label}>Kelas</Text>  
+          <TextInput  
+            style={styles.input}  
+            value={kelas}  
+            onChangeText={setKelas}  
+            placeholder="Masukkan kelas"  
+          />  
+        </View>  
+        <View style={styles.formGroup}>  
+          <Text style={styles.label}>Keterangan</Text>  
+          <Picker  
+            style={styles.picker}  
+            selectedValue={keterangan}  
+            onValueChange={(itemValue) => setKeterangan(itemValue)}  
+          >  
+            <Picker.Item label="Pilih Keterangan" value="" />  
+            <Picker.Item label="Sakit" value="sakit" />  
+            <Picker.Item label="Izin" value="izin" />  
+            <Picker.Item label="Alpa" value="alpa" />  
+          </Picker>  
+        </View>  
+        <View style={styles.formGroup}>  
+          <Text style={styles.label}>Deskripsi</Text>  
+          <TextInput  
+            style={styles.textarea}  
+            value={deskripsi}  
+            onChangeText={setDeskripsi}  
+            placeholder="Masukkan deskripsi"  
+            multiline  
+            numberOfLines={4}  
+          />  
+        </View>  
+        <View style={styles.formGroup}>  
+          <Text style={styles.label}>Bukti Pendukung (Opsional)</Text>  
+          <TouchableOpacity style={styles.fileUploadButton} onPress={handleFileUpload}>  
+            <Text style={styles.fileUploadButtonText}>  
+              {file ? file.name : 'Pilih File'}  
+            </Text>  
+          </TouchableOpacity>  
+        </View>  
+        <TouchableOpacity style={styles.uploadButton} onPress={handleSubmit}>  
+          <Text style={styles.uploadButtonText}>Upload</Text>  
+        </TouchableOpacity> 
+      </View>  
+    </ScrollView>  
+  );  
+};  
+  
+const styles = StyleSheet.create({  
+  container: {  
+    flexGrow: 1,  
+    backgroundColor: '#f4f4f9',  
+    padding: 20,  
+  },  
+  header: {  
+    flexDirection: 'row',  
+    alignItems: 'center',  
+    marginBottom: 20,  
+  },  
+  backButton: {  
+    marginRight: 10,  
+  },  
+  backIcon: {  
+    width: 18,  
+    height: 18,  
+  },  
+  headerText: {  
+    fontSize: 20,  
+    fontWeight: 'bold',  
+    color: '#140604',  
+    textAlign: 'center',  
+  },  
+  formContainer: {  
+    backgroundColor: '#fff',  
+    padding: 20,  
+    borderRadius: 8,  
+    shadowColor: '#000',  
+    shadowOffset: { width: 0, height: 2 },  
+    shadowOpacity: 0.1,  
+    shadowRadius: 4,  
+    elevation: 3,  
+  },  
+  formGroup: {  
+    marginBottom: 15,  
+  },  
+  label: {  
+    marginBottom: 5,  
+    fontSize: 16,  
+    fontWeight: 'reguler',  
+    color: '#08080d',  
+  },  
+  input: {  
+    width: '100%',  
+    padding: 10,  
+    borderColor: '#ccc',  
+    borderWidth: 1,  
+    borderRadius: 8,  
+    backgroundColor: '#fff',
+      
+  },  
+  picker: {  
+    width: '100%',  
+    height: 50,  
+    borderColor: '#ccc',  
+    borderWidth: 1,  
+    borderRadius: 8,  
+    backgroundColor: '#fff',
+      
+  },  
+  textarea: {  
+    width: '100%',  
+    padding: 10,  
+    borderColor: '#ccc',  
+    borderWidth: 1,  
+    borderRadius: 8,  
+    backgroundColor: '#fff',  
+    textAlignVertical: 'top',
+    
+  },  
+  fileUploadButton: {  
+    width: '100%',  
+    padding: 10,  
+    backgroundColor: '#e9edf0',  
+    borderRadius: 8,  
+    alignItems: 'center',  
+  },  
+  fileUploadButtonText: {  
+    color: '#555',  
+  },  
+  uploadButton: {  
+    backgroundColor: '#87CEFA', // Light blue color  
+    padding: 15,  
+    borderRadius: 8,  
+    alignItems: 'center',  
+    marginTop: 20,  
+  },  
+  uploadButtonText: {  
+    color: '#fff',  
+    fontSize: 16,  
+    fontWeight: 'bold',  
+  },  
+}); 
+  
+export default BuatIzin;  

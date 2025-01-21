@@ -4,12 +4,23 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 const TeacherProfileScreen = ({ navigation, route }) => {
   const { username, role, school, position, nik, year } = route.params;
 
-  // Function to handle back navigation
+  // Fungsi untuk menangani navigasi kembali
   const handleBack = () => {
     if (navigation.canGoBack()) {
       navigation.goBack();
     }
   };
+
+  // Fungsi untuk logout dan kembali ke halaman login
+  const handleLogout = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],  // Mengarahkan ke halaman Login
+    });
+  };
+
+  // Ukuran yang dapat diubah untuk ikon back
+  const backIconSize = 18; // Anda dapat mengubah nilai ini untuk menyesuaikan ukuran ikon
 
   return (
     <View style={styles.container}>
@@ -17,7 +28,10 @@ const TeacherProfileScreen = ({ navigation, route }) => {
       <View style={styles.headerContainer}>
         {navigation.canGoBack() && (
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.backButtonText}>Back</Text>
+            <Image
+              source={require("../../../assets/back.png")} // Ikon back custom
+              style={[styles.backIcon, { width: backIconSize, height: backIconSize }]} // Menambahkan ukuran dinamis untuk ikon back
+            />
           </TouchableOpacity>
         )}
         <Image
@@ -27,7 +41,7 @@ const TeacherProfileScreen = ({ navigation, route }) => {
         <Text style={styles.logoText}>ABSENSIKU</Text>
       </View>
 
-      {/* Profile Card */}
+      {/* Kartu Profil */}
       <View style={styles.profileCard}>
         <Image
           source={require("../../../assets/student1.png")}
@@ -39,7 +53,7 @@ const TeacherProfileScreen = ({ navigation, route }) => {
         </View>
       </View>
 
-      {/* Details Card */}
+      {/* Kartu Detail */}
       <View style={styles.detailsCard}>
         <View style={styles.detailRow}>
           <Image
@@ -70,6 +84,11 @@ const TeacherProfileScreen = ({ navigation, route }) => {
           <Text style={styles.detailText}>Tahun Ajaran: {year}</Text>
         </View>
       </View>
+
+      {/* Tombol Logout */}
+      <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -87,13 +106,11 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 8,
-    backgroundColor: "#00796b",
-    borderRadius: 5,
     marginRight: 10,
   },
-  backButtonText: {
-    color: "#fff",
-    fontSize: 14,
+  // Style untuk ikon back
+  backIcon: {
+    resizeMode: 'contain', // Menjaga ikon agar proporsional saat disesuaikan ukurannya
   },
   logo: {
     width: 40,
@@ -145,6 +162,17 @@ const styles = StyleSheet.create({
   detailText: {
     fontSize: 16,
     color: "#333",
+  },
+  logoutButton: {
+    padding: 10,
+    backgroundColor: "#FF6347",
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  logoutText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

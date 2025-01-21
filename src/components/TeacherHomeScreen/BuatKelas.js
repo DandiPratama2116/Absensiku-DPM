@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 
 const BuatKelas = ({ navigation, route }) => {
@@ -41,13 +42,16 @@ const BuatKelas = ({ navigation, route }) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        {/* Tombol Kembali */}
+        {/* Tombol Kembali dengan Ikon */}
         {navigation.canGoBack() && (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           >
-            <Text style={styles.backSymbol}>{"Back"}</Text>
+            <Image
+              source={require("../../../assets/back.png")} // Ganti dengan path gambar back.png
+              style={styles.backIcon} // Gaya untuk mengatur ukuran ikon
+            />
           </TouchableOpacity>
         )}
 
@@ -139,13 +143,14 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginBottom: 16,
   },
+  // Gaya untuk tombol back dengan ikon
   backButton: {
     marginBottom: 8,
   },
-  backSymbol: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#333",
+  backIcon: {
+    width: 18, // Ukuran lebar ikon back
+    height: 18, // Ukuran tinggi ikon back
+    tintColor: "#333", // Menambahkan warna ikon jika diperlukan
   },
   logoContainer: {
     flexDirection: "row",
@@ -157,7 +162,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   logoText: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "bold",
     color: "#2D7CF3",
   },

@@ -56,7 +56,10 @@ const KelasStudent = () => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Text style={styles.backText}>Back</Text>
+          <Image
+            source={require("../../../assets/back.png")} // Use the back icon from your assets
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
           <Image
@@ -102,12 +105,11 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 4,
-    backgroundColor: "#007BFF",
-    borderRadius: 4,
   },
-  backText: {
-    color: "#FFFFFF",
-    fontSize: 12,
+  backIcon: {
+    width: 18,
+    height: 18,
+    resizeMode: "contain",
   },
   headerCenter: {
     flexDirection: "row",

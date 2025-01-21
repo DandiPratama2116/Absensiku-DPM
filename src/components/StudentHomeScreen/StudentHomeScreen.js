@@ -4,23 +4,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 const StudentHomeScreen = ({ navigation, route }) => {
   const { username } = route.params; // Get username from navigation params
 
-  // Function to handle back navigation
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
+  const handleLogout = () => {
+    navigation.replace("Login"); // Navigate back to the login screen
   };
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        {/* Tombol Back */}
-        {navigation.canGoBack() && (
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.backButtonText}>{"Back"}</Text>
-          </TouchableOpacity>
-        )}
         {/* Logo ABSENSIKU */}
         <Image
           source={require("../../../assets/sidikjari.png")}
@@ -108,6 +99,11 @@ const StudentHomeScreen = ({ navigation, route }) => {
           <Text style={styles.detailText}>Tahun Ajaran 2024/2025</Text>
         </View>
       </View>
+
+      {/* Logout Button */}
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -119,20 +115,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   headerContainer: {
-    position: "absolute",
-    top: 20,
-    left: 20,
-  },
-  backButton: {
-    fontSize: 15,
-  },
-  backButtonText: {
-    color: "#000000", // Warna simbol "<"
-    fontSize: 20,
-    fontWeight: "bold", // Tebal
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
   },
   logo: {
-    width: 40, // Sesuaikan ukuran logo
+    width: 40, // Adjust logo size
     height: 40,
     marginTop: 5,
   },
@@ -141,6 +129,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#2D7CF3",
     marginTop: 5,
+    marginLeft: 10,
   },
   profileCard: {
     flexDirection: "row",
@@ -149,7 +138,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,
-    marginTop: 80, // Pastikan konten utama tidak menabrak header
+    marginTop: 20, // Ensure main content doesn't overlap with header
     elevation: 3,
   },
   profileIcon: {
@@ -204,6 +193,18 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 14,
+  },
+  logoutButton: {
+    marginTop: 20,
+    backgroundColor: "#FF6B6B",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  logoutButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
