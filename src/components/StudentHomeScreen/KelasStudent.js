@@ -1,203 +1,110 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  ScrollView,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-
-const KelasStudent = () => {
-  const navigation = useNavigation();
-
-  const data = [
-    { no: 1, mataPelajaran: "Biologi", guru: "Wiranto S.Pd" },
-    { no: 2, mataPelajaran: "Fisika", guru: "Agung Haryadi S.Pd" },
-    {
-      no: 3,
-      mataPelajaran: "Teknologi Informasi dan Komunikasi",
-      guru: "Rahmat Hidayah S.Pd",
-    },
-    {
-      no: 4,
-      mataPelajaran: "Pendidikan Kewarganegaraan",
-      guru: "Imam Saputra S.Pd",
-    },
-    { no: 5, mataPelajaran: "Pendidikan Agama Islam", guru: "Firmansyah S.Pd" },
-  ];
-
-  const renderItem = ({ item }) => (
-    <View style={styles.row}>
-      <Text style={[styles.cell, styles.cellNo]}>{item.no}</Text>
-      <Text style={[styles.cell, styles.cellMataPelajaran]}>
-        {item.mataPelajaran}
-      </Text>
-      <Text style={[styles.cell, styles.cellGuru]}>{item.guru}</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate("HalamanLain", {
-            mataPelajaran: item.mataPelajaran,
-          })
-        }
-      >
-        <Text style={styles.buttonText}>Pilih</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        >
-          <Image
-            source={require("../../../assets/back.png")} // Use the back icon from your assets
-            style={styles.backIcon}
-          />
-        </TouchableOpacity>
-        <View style={styles.headerCenter}>
-          <Image
-            source={require("../../../assets/sidikjari.png")}
-            style={styles.logo}
-          />
-          <Text style={styles.headerText}>ABSENSIKU</Text>
-        </View>
-      </View>
-      <Text style={styles.kelas}>Siswa Kelas 10A</Text>
-      <ScrollView horizontal>
-        <View>
-          <View style={styles.tableHeader}>
-            <Text style={[styles.headerCell, styles.headerNo]}>No</Text>
-            <Text style={[styles.headerCell, styles.headerMataPelajaran]}>
-              Mata Pelajaran
-            </Text>
-            <Text style={[styles.headerCell, styles.headerGuru]}>Guru</Text>
-            <Text style={styles.headerCell}>Aksi</Text>
-          </View>
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.no.toString()}
-            renderItem={renderItem}
-          />
-        </View>
-      </ScrollView>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F7F9FC",
-    padding: 16,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  backButton: {
-    padding: 4,
-  },
-  backIcon: {
-    width: 18,
-    height: 18,
-    resizeMode: "contain",
-  },
-  headerCenter: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  logo: {
-    width: 30,
-    height: 30,
-    marginRight: 8,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#2D7CF3",
-  },
-  kelas: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  tableHeader: {
-    flexDirection: "row",
-    borderBottomWidth: 2,
-    borderBottomColor: "#2D7CF3",
-    paddingBottom: 8,
-    marginBottom: 8,
-  },
-  headerCell: {
-    fontWeight: "bold",
-    fontSize: 16,
-    textAlign: "center",
-    color: "#2D7CF3",
-  },
-  headerNo: {
-    width: 40,
-  },
-  headerMataPelajaran: {
-    flex: 2,
-    textAlign: "left",
-    paddingLeft: 8,
-  },
-  headerGuru: {
-    flex: 1.5,
-    textAlign: "left",
-    paddingLeft: 8,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 8,
-    marginBottom: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    elevation: 2,
-  },
-  cell: {
-    fontSize: 14,
-    color: "#333",
-  },
-  cellNo: {
-    width: 40,
-    textAlign: "center",
-  },
-  cellMataPelajaran: {
-    flex: 2,
-    textAlign: "left",
-    paddingLeft: 8,
-  },
-  cellGuru: {
-    flex: 1.5,
-    textAlign: "left",
-    paddingLeft: 8,
-  },
-  button: {
-    backgroundColor: "#2D7CF3",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontWeight: "bold",
-    fontSize: 14,
-    textAlign: "center",
-  },
-});
-
-export default KelasStudent;
+import React from "react";  
+import {  
+  View,  
+  Text,  
+  StyleSheet,  
+  TouchableOpacity,  
+  FlatList,  
+  Image,  
+} from "react-native";  
+import { useNavigation } from "@react-navigation/native";  
+  
+const KelasStudent = () => {  
+  const navigation = useNavigation();  
+  
+  const data = [  
+    { id: 1, mataPelajaran: "Biologi" },  
+    { id: 2, mataPelajaran: "Fisika" },  
+    { id: 3, mataPelajaran: "Matematika" },  
+    { id: 4, mataPelajaran: "Kimia" },  
+  ];  
+  
+  const renderItem = ({ item }) => (  
+    <View style={styles.row}>  
+      <Text style={styles.cell}>{item.mataPelajaran}</Text>  
+      <TouchableOpacity  
+        style={styles.button}  
+        onPress={() =>  
+          navigation.navigate("AbsenKelas", { mataPelajaran: item.mataPelajaran })  
+        }  
+      >  
+        <Text style={styles.buttonText}>Pilih</Text>  
+      </TouchableOpacity>  
+    </View>  
+  );  
+  
+  return (  
+    <View style={styles.container}>  
+      <View style={styles.header}>  
+        <TouchableOpacity onPress={() => navigation.goBack()}>  
+          <Image source={require("../../../assets/back.png")} style={styles.backIcon} />  
+        </TouchableOpacity>  
+        <Text style={styles.headerText}>Daftar Mata Pelajaran</Text>  
+      </View>  
+      <FlatList  
+        data={data}  
+        keyExtractor={(item) => item.id.toString()}  
+        renderItem={renderItem}  
+        contentContainerStyle={styles.listContainer}  
+      />  
+    </View>  
+  );  
+};  
+  
+const styles = StyleSheet.create({  
+  container: {  
+    flex: 1,  
+    backgroundColor: "#F5F5F5", // Changed background color  
+    padding: 16,  
+  },  
+  header: {  
+    flexDirection: "row",  
+    alignItems: "center",  
+    marginBottom: 24,  
+    justifyContent: "space-between", // Added to space out items  
+  },  
+  headerText: {  
+    flex: 1, // Allow the text to take up remaining space  
+    fontSize: 24, // Increased font size  
+    fontWeight: "bold",  
+    textAlign: "center", // Center the text  
+    color: "#333333", // Changed text color  
+  },  
+  listContainer: {  
+    paddingBottom: 16,  
+  },  
+  row: {  
+    flexDirection: "row",  
+    alignItems: "center",  
+    justifyContent: "space-between",  
+    padding: 16, // Increased padding  
+    marginBottom: 12,  
+    backgroundColor: "#FFFFFF", // Changed background color  
+    borderRadius: 12, // Increased border radius  
+    shadowColor: "#000",  
+    shadowOpacity: 0.1,  
+    shadowOffset: { width: 0, height: 2 },  
+    shadowRadius: 4,  
+    elevation: 3,  
+  },  
+  cell: {  
+    fontSize: 18, // Increased font size  
+    color: "#333333", // Changed text color  
+  },  
+  button: {  
+    backgroundColor: "#add8e6", // Changed background color  
+    paddingVertical: 10, // Adjusted padding  
+    paddingHorizontal: 20, // Adjusted padding  
+    borderRadius: 20, // Increased border radius  
+  },  
+  buttonText: {  
+    color: "##FFFFFF", // Changed text color  
+    fontSize: 15, // Increased font size  
+  },  
+  backIcon: {  
+    width: 18, // Set width of the icon  
+    height: 18, // Set height of the icon  
+  },  
+});  
+  
+export default KelasStudent;  

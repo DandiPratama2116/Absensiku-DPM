@@ -162,10 +162,12 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: 8,
+    marginTop: 16, // Menambahkan margin atas agar ikon back lebih ke bawah
   },
   backIcon: {
     width: 18,
     height: 18,
+    marginLeft: 16,
   },
   title: {
     fontSize: 20,

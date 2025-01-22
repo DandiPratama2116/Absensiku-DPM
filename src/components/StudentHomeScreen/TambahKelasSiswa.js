@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
     height: 18,  
   },  
   logo: {  
-    width: 100,  
-    height: 100,  
+    width: 50,  
+    height: 50,  
     marginBottom: 20,  
   },  
   headerText: {  
-    fontSize: 20,  
+    fontSize: 15,  
     fontWeight: "bold",  
     textAlign: "center",  
     marginBottom: 30,  

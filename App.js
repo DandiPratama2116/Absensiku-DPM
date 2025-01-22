@@ -18,6 +18,8 @@ import DetailIzinSiswa from "./src/components/TeacherHomeScreen/DetailIzinSiswa"
 import BuatIzin from "./src/components/StudentHomeScreen/BuatIzin";
 import KelasStudent from "./src/components/StudentHomeScreen/KelasStudent";
 import TambahKelasSiswa from "./src/components/StudentHomeScreen/TambahKelasSiswa";
+import AbsenKelas from "./src/components/StudentHomeScreen/AbsenKelas";
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -47,6 +49,7 @@ const App = () => {
         <Stack.Screen name="BuatIzin" component={BuatIzin} />
         <Stack.Screen name="KelasStudent" component={KelasStudent} />
         <Stack.Screen name="TambahKelasSiswa" component={TambahKelasSiswa} />
+        <Stack.Screen name="AbsenKelas" component={AbsenKelas} />
       </Stack.Navigator>
     </NavigationContainer>
   );
