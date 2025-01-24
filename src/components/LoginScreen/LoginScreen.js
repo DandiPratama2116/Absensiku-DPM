@@ -1,14 +1,42 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+} from "react-native";
+import axios from "axios";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState(""); // State untuk username
   const [password, setPassword] = useState(""); // State untuk password
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (username && password) {
-      // Navigasi ke halaman Pilihan sambil membawa parameter username
-      navigation.navigate("Pilihan", { username: username });
+      try {
+        // Kirim permintaan GET ke backend
+        const response = await axios.get("http://192.168.1.4:8083/login", {
+          params: { username, password },
+        });
+
+        // Jika login berhasil
+        if (response.data.message === "Login berhasil.") {
+          const { role, id } = response.data.data;
+
+          // Log data API di console
+          console.log("API Response:", response.data);
+
+          // Navigasi ke halaman Pilihan sambil membawa parameter username & role
+          navigation.navigate("Pilihan", { username, role });
+        } else {
+          alert("Username atau password salah!");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Terjadi kesalahan. Silakan coba lagi.");
+      }
     } else {
       alert("Please enter username and password!");
     }
@@ -16,7 +44,10 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../../../assets/sidikjari.png")} style={styles.logo} />
+      <Image
+        source={require("../../../assets/sidikjari.png")}
+        style={styles.logo}
+      />
       <Text style={styles.appName}>ABSENSIKU</Text>
       <Text style={styles.welcomeText}>Selamat Datang</Text>
       <View style={styles.inputContainer}>

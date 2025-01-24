@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,9 +16,22 @@ const TeacherHomeScreen = ({ navigation, route }) => {
     setClasses((prevClasses) => [...prevClasses, newClass]);
   };
 
+  const fetchClasses = async () => {
+    try {
+      const response = await fetch("http://localhost:8083/getkelas"); // Pastikan URL ini sesuai dengan endpoint di backend Anda
+      const data = await response.json();
+      setClasses(data.data); // Sesuaikan jika struktur respons berbeda
+    } catch (error) {
+      console.error("Error fetching classes:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchClasses(); // Fetch kelas saat komponen pertama kali dimount
+  }, []);
+
   return (
     <View style={styles.container}>
-      {/* Header tanpa tombol kembali */}
       <View style={styles.headerContainer}>
         <View style={styles.logoContainer}>
           <Image
@@ -29,7 +42,6 @@ const TeacherHomeScreen = ({ navigation, route }) => {
         </View>
       </View>
 
-      {/* Informasi Guru */}
       <TouchableOpacity
         style={styles.teacherCard}
         onPress={() =>
@@ -53,7 +65,6 @@ const TeacherHomeScreen = ({ navigation, route }) => {
         </View>
       </TouchableOpacity>
 
-      {/* Menu Navigasi */}
       <View style={styles.menuContainer}>
         <TouchableOpacity
           style={styles.menuItem}
@@ -70,8 +81,8 @@ const TeacherHomeScreen = ({ navigation, route }) => {
           style={styles.menuItem}
           onPress={() =>
             navigation.navigate("JadwalKelas", {
-              className: "Nama Kelas", // Ganti dengan nama kelas yang sesuai
-              mataPelajaran: "Mata Pelajaran", // Ganti dengan mata pelajaran yang sesuai
+              className: "Nama Kelas",
+              mataPelajaran: "Mata Pelajaran",
             })
           }
         >
@@ -94,12 +105,11 @@ const TeacherHomeScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Daftar Kelas (Hanya Menampilkan 3 Kelas Terbaru) */}
       <View style={styles.classListContainer}>
         <Text style={styles.sectionTitle}>Daftar Kelas</Text>
         <FlatList
-          data={classes} // Menampilkan semua kelas
-          keyExtractor={(item, index) => index.toString()}
+          data={classes}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.classItem}>
               <View style={styles.classInfoContainer}>
@@ -107,26 +117,19 @@ const TeacherHomeScreen = ({ navigation, route }) => {
                 <Text style={styles.classDetail}>
                   {item.mataPelajaran} - {item.hari} - {item.waktu}
                 </Text>
-                <Text style={styles.classDetail}>
-                  Jadwal: {item.jadwal ? "Tersedia" : "Belum ada jadwal"}
-                </Text>
               </View>
               <TouchableOpacity
                 style={styles.selectButton}
                 onPress={() =>
-                  navigation.navigate("JadwalKelas", {
-                    className: item.kelas,
-                    mataPelajaran: item.mataPelajaran,
+                  navigation.navigate("StudentList", {
+                    kodeKelas: item.code, // Kirim kode kelas untuk melihat siswa
                   })
                 }
               >
-                <Text style={styles.selectButtonText}>Atur Jadwal</Text>
+                <Text style={styles.selectButtonText}>Lihat Siswa</Text>
               </TouchableOpacity>
             </View>
           )}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>Belum ada kelas yang dibuat.</Text>
-          }
         />
       </View>
     </View>
@@ -231,10 +234,6 @@ const styles = StyleSheet.create({
   selectButtonText: {
     color: "#fff",
     fontWeight: "bold",
-  },
-  emptyText: {
-    textAlign: "center",
-    color: "#777",
   },
 });
 

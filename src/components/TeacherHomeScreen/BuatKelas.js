@@ -10,6 +10,7 @@ import {
 } from "react-native";
 
 const BuatKelas = ({ navigation, route }) => {
+  const { addClass } = route.params; // Mendapatkan fungsi addClass dari parameter
   const [formData, setFormData] = useState({
     kelas: "",
     mataPelajaran: "",
@@ -18,44 +19,80 @@ const BuatKelas = ({ navigation, route }) => {
     tahunAjaran: "",
     semester: "",
   });
+  const [newClass, setNewClass] = useState(null); // State untuk kelas yang baru dibuat
 
   const handleInputChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleSubmit = () => {
-    const { addClass } = route.params;
+  const handleSubmit = async () => {
     if (
       !formData.kelas ||
       !formData.mataPelajaran ||
       !formData.hari ||
-      !formData.waktu
+      !formData.waktu ||
+      !formData.tahunAjaran ||
+      !formData.semester
     ) {
-      Alert.alert("Error", "Harap isi semua data!");
+      Alert.alert("Error", "Semua field harus diisi.");
       return;
     }
-    addClass({ ...formData, jadwal: null }); // Jadwal diset null saat kelas dibuat
-    navigation.goBack();
+
+    const generateCode = () =>
+      Math.floor(100000 + Math.random() * 900000).toString();
+    const generatedCode = generateCode();
+
+    const dataToSend = {
+      kelas: formData.kelas,
+      mataPelajaran: formData.mataPelajaran,
+      hari: formData.hari,
+      waktu: formData.waktu,
+      tahunAjaran: formData.tahunAjaran,
+      semester: formData.semester,
+      code: generatedCode,
+      teacher_id: "1", // Ganti dengan ID guru yang sedang login
+    };
+
+    try {
+      const response = await fetch("http://192.168.1.4:8083/buatkelas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        addClass(data.data); // Menambahkan kelas ke daftar kelas di halaman home guru
+        setNewClass(data.data); // Menyimpan kelas yang baru dibuat
+        Alert.alert("Success", `Kelas berhasil dibuat! Kode: ${generatedCode}`);
+        navigation.goBack();
+      } else {
+        Alert.alert("Error", data.message);
+      }
+    } catch (error) {
+      console.error("Error saat mengirim data:", error);
+      Alert.alert("Error", "Terjadi kesalahan pada server.");
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.headerContainer}>
-        {/* Tombol Kembali dengan Ikon */}
         {navigation.canGoBack() && (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           >
             <Image
-              source={require("../../../assets/back.png")} // Ganti dengan path gambar back.png
-              style={styles.backIcon} // Gaya untuk mengatur ukuran ikon
+              source={require("../../../assets/back.png")}
+              style={styles.backIcon}
             />
           </TouchableOpacity>
         )}
 
-        {/* Logo ABSENSIKU */}
         <View style={styles.logoContainer}>
           <Image
             source={require("../../../assets/sidikjari.png")}
@@ -65,7 +102,6 @@ const BuatKelas = ({ navigation, route }) => {
         </View>
       </View>
 
-      {/* Form Pembuatan Kelas */}
       <Text style={styles.title}>Buat Kelas</Text>
       <View style={styles.formContainer}>
         <View style={styles.row}>
@@ -124,7 +160,21 @@ const BuatKelas = ({ navigation, route }) => {
         </View>
       </View>
 
-      {/* Tombol Simpan */}
+      {newClass && (
+        <View style={styles.tokenContainer}>
+          <Text style={styles.tokenLabel}>Kelas Baru:</Text>
+          <Text style={styles.token}>Nama: {newClass.kelas}</Text>
+          <Text style={styles.token}>
+            Mata Pelajaran: {newClass.mataPelajaran}
+          </Text>
+          <Text style={styles.token}>Hari: {newClass.hari}</Text>
+          <Text style={styles.token}>Waktu: {newClass.waktu}</Text>
+          <Text style={styles.token}>Tahun Ajaran: {newClass.tahunAjaran}</Text>
+          <Text style={styles.token}>Semester: {newClass.semester}</Text>
+          <Text style={styles.token}>Kode: {newClass.code}</Text>
+        </View>
+      )}
+
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Simpan</Text>
       </TouchableOpacity>
@@ -143,14 +193,13 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginBottom: 16,
   },
-  // Gaya untuk tombol back dengan ikon
   backButton: {
     marginBottom: 8,
   },
   backIcon: {
-    width: 18, // Ukuran lebar ikon back
-    height: 18, // Ukuran tinggi ikon back
-    tintColor: "#333", // Menambahkan warna ikon jika diperlukan
+    width: 18,
+    height: 18,
+    tintColor: "#333",
   },
   logoContainer: {
     flexDirection: "row",
@@ -202,6 +251,19 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 16,
+  },
+  tokenContainer: {
+    marginTop: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+  },
+  tokenLabel: {
+    fontWeight: "bold",
+  },
+  token: {
+    marginVertical: 4,
   },
 });
 
